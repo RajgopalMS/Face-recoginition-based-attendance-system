@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+
+    <div class="card">
+        <form action="/asd/" method="method">
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Branch/Stream</label>
+                    <select type="text" class="form-control border-input" name="branch" required="required">
+                        <option value="">Select Branch</option>
+                        <option value="ISE">ISE</option>
+                        <option value="EC">EC</option>
+                        <option value="CSE">CSE</option>
+                        <option value="PC">Basic Science(Physics Cycle)</option>
+                        <option value="CC">Basic Science(Chemistry Cycle)</option>
+                        <option value="ISE">ISE</option>
+                        <option value="ME">ME</option>
+                        <option value="CIV">CIV</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Semester/year</label>
+                        <select type="text" class="form-control border-input" name="Sem" required="required">
+                            <option value="">Select Semester</option>
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                            <option value="5">5</option>
+                            <option value="7">7</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Section</label>
+                            <select type="text" class="form-control border-input" name="Sec" required="required">
+                                <option value="">Select Section</option>
+                                <option value="Sec A">Sec A</option>
+                                <option value="Sec B">Sec B</option>
+
+                                <option value="SEC C">Sec C</option>
+                                <option value="SEC F">Sec F</option>
+                                <option value="SEC G">Sec G</option>
+                                <option value="SEC H">Sec H</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="text-center">
+
+                            <button type="submit" class="btn btn-info btn-fill btn-wd">Submit</button>
+                        </div>
+                    </div>
+        </form>
+
+
+    </div>
+</div>
+<hr>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="toolbar">
+                <!--Here you can write extra buttons/actions for the toolbar-->
+            </div>
+            <div class="fresh-datatables">
+                <div id="datatables_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="datatables_length"><label>  </label></div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="datatables_filter" class="dataTables_filter"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="datatables" class="table table-striped table-no-bordered table-hover dataTable dtr-inline"
+                                cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
+                                            style="width: 30px;" aria-label="Name: activate to sort column ascending">ID</th>
+                                        <th class="sorting_desc" tabindex="0" aria-controls="datatables" rowspan="1"
+                                            colspan="1" style="width: 93px;" aria-label="Position: activate to sort column ascending"
+                                            aria-sort="descending">USN</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
+                                            style="width: 135px;" aria-label="Office: activate to sort column ascending">Name</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
+                                            style="width: 135px;" aria-label="Age: activate to sort column ascending">Branch/Stream</th>
+                                        <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
+                                            style="width: 120px;" aria-label="Start date: activate to sort column ascending">Semester
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
+                                            style="width: 120px;" aria-label="Start date: activate to sort column ascending">Section
+                                            </th>
+                                        <th class="disabled-sorting sorting" tabindex="0" aria-controls="datatables"
+                                            rowspan="1" colspan="1" style="width: 156px;" aria-label="Actions: activate to sort column ascending">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th rowspan="1" colspan="1">ID</th>
+                                        <th rowspan="1" colspan="1">USN</th>
+                                        <th rowspan="1" colspan="1">Name</th>
+                                        
+                                        <th rowspan="1" colspan="1">Branch</th>
+                                        <th rowspan="1" colspan="1">Semester/Year</th>
+                                        <th rowspan="1" colspan="1">Section</th>
+                                        <th rowspan="1" colspan="1">Actions</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    {% for stuobjs in stuobj.all %}
+                                    <tr role="row" class="odd">
+                                        <td class="" tabindex="0">{{ stuobjs.id }}</td>
+                                        <td class="sorting_1">{{ stuobjs.usn }}</td>
+                                        <td class="sorting_1">{{ stuobjs.Name }}</td>
+                                        <td>{{ stuobjs.branch }}</td>
+                                        <td>{{ stuobjs.sem }}</td>
+                                        <td>{{ stuobjs.sec }}</td>
+                                        <td>
+                                            <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="ti-heart">edit</i></a>
+                                            <a href="/attendance/?id={{ stuobjs.id }}" class="btn btn-simple btn-warning btn-icon edit"><i class="ti-pencil-alt">View Attendance</i></a>
+                                            <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="ti-close"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" id="datatables_info" role="status" aria-live="polite">
+                              </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="dataTables_paginate paging_full_numbers" id="datatables_paginate">
+                                <ul class="pagination">
+                                  </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+</div>
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+
+        $('#datatables').DataTable({
+            "pagingType": "full_numbers",
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search records",
+            }
+        });
+
+
+        var table = $('#datatables').DataTable();
+        // Edit record
+        table.on('click', '.edit', function () {
+            $tr = $(this).closest('tr');
+
+            var data = table.row($tr).data();
+            alert('USN' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+        });
+
+        // Delete a record
+        table.on('click', '.remove', function (e) {
+            $tr = $(this).closest('tr');
+            table.row($tr).remove().draw();
+            e.preventDefault();
+        });
+
+        //Like record
+       
+
+    });
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="toolbar">
+                <!--Here you can write extra buttons/actions for the toolbar-->
+            </div>
+            <div class="fresh-datatables">
+                <div id="datatables_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_length" id="datatables_length"><label>  </label></div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="datatables_filter" class="dataTables_filter"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="datatables" class="table table-striped table-no-bordered table-hover dataTable dtr-inline"
+                                cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                                <thead>
+                                    <tr role="row">
+                                       
+                                        <th rowspan="1" colspan="1">Date & Time</th>
+                                        <th rowspan="1" colspan="1">Status</th>
+                                        <th rowspan="1" colspan="1">Cource</th>
+                                        
+                                        <th rowspan="1" colspan="1">Branch</th>
+                                      
+                                            
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                               
+                                        <th rowspan="1" colspan="1">USN</th>
+                                        <th rowspan="1" colspan="1">Subject \n Name</th>
+                                        <th rowspan="1" colspan="1">Name</th>
+                                        
+                                        <th rowspan="1" colspan="1">Branch</th>
+                                      
+                                      
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    {% for stuobjs in stuobj.all %}
+                                    <tr role="row" class="odd">
+                    
+                                        <td class="sorting_1">{{ stuobjs.date }}</td>
+                                    
+                                        <td><time>{{ stuobjs.time }}</time></td>
+                                        <td>
+                                        {% if stuobjs.p_b  %}
+                                        Present
+                                            
+                                        {% endif %}
+                                            </td>
+                                        <td>{{ stuobjs.cid }}</td>
+                                        <td>{{ stuobjs.sec }}</td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" id="datatables_info" role="status" aria-live="polite">
+                              </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="dataTables_paginate paging_full_numbers" id="datatables_paginate">
+                                <ul class="pagination">
+                                  </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+</div>
+
+
+       
+
+
+
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+
+        $('#datatables').DataTable({
+            "pagingType": "full_numbers",
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search records",
+            }
+        });
+
+
+        var table = $('#datatables').DataTable();
+        // Edit record
+        table.on('click', '.edit', function () {
+            $tr = $(this).closest('tr');
+
+            var data = table.row($tr).data();
+            alert('USN' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+        });
+
+        // Delete a record
+        table.on('click', '.remove', function (e) {
+            $tr = $(this).closest('tr');
+            table.row($tr).remove().draw();
+            e.preventDefault();
+        });
+
+        //Like record
+       
+
+    });
+</script>
+{% endblock %}
+{% endblock %}

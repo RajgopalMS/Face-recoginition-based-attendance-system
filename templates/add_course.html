@@ -1,0 +1,125 @@
+{% extends 'base.html'   %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+
+<div class="col-lg-8 col-md-7">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Add Teachers</h4>
+            </div>
+            <div class="content" style="margin:10px">
+                    <form action="{% url 'add_course' %}" method="POST">
+                            {% csrf_token  %}
+                                                <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Collage</label>
+                                <input type="text" class="form-control border-input" disabled="" placeholder="Sri Krishna Institute of Technology" value="Sri Krishna Institute of Technology.">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Subject Code</label>
+                                <input type="text" class="form-control border-input" name="Subjectcode" placeholder="Subject Code" value="" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" class="form-control border-input" placeholder="Email" name="email" required="required">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Faculty Name</label>
+                                <input type="text" class="form-control border-input" placeholder="FacName" value="" name="FacName" required="required">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="text" class="form-control border-input" placeholder="" name="Phno" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Subject Name</label>
+                                    <input type="text" class="form-control border-input" placeholder="SubjectName" value="" name="SubName" required="required">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Upload Image</label>
+                                    <input type="file" class="form-control border-input" placeholder="" name="files" required="required">
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Branch/Stream</label>
+                                <select type="text" class="form-control border-input" name="branch" required="required">
+                                        <option value="">Select Branch</option>
+                                        <option value="ISE">ISE</option>
+                                                   <option value="EC">EC</option>
+                                                   <option value="CSE">CSE</option>
+                                       <option value="PC">Basic Science(Physics Cycle)</option>
+                                                  <option value="CC">Basic Science(Chemistry Cycle)</option>
+                                               <option value="ISE">ISE</option>
+                                                  <option value="ME">ME</option>
+                                                  <option value="CIV">CIV</option>
+                                </select>                                      
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Semester/year</label>
+                                <select type="text" class="form-control border-input" name="Sem" required="required">
+                                        <option value="">Select Semester</option>
+                                        <option value="1">1</option>
+                                                   <option value="3">3</option>
+                                                   <option value="5">5</option>
+                                                   <option value="7">7</option> 
+                                                   </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Section</label>
+                                <select type="text" class="form-control border-input" name="Sec" required="required">
+                                        <option value="">Select Section</option>
+                                        <option value="Sec A">Sec A</option>
+                                        <option value="Sec B">Sec B</option>
+                                    
+                                        <option value="SEC C">Sec C</option>
+                                        <option value="SEC F">Sec F</option>
+                                        <option value="SEC G">Sec G</option>
+                                        <option value="SEC H">Sec H</option> 
+                                    </select>
+                            </div>
+                        </div>
+
+                    <div class="row">
+                       
+                    </div>
+                    <div class="text-center">
+                        
+                        <button type="submit" style="margin-bottom: 5px" class="btn btn-info btn-fill btn-wd">Submit</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

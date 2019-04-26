@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-1"></div>
+    
+    <div class="w-col col-md-4" >
+        <div class="card">
+                <div class="content" style="padding:20px" >
+        {{message}} 
+<form action="{% url 'Login'  %}" method="POST">
+    <div class="form-group">
+            {% csrf_token %} 
+        <label for="name">Username</label>
+        <input type="text" class="form-control border-input" id="name" name="name">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control border-input" id="pwd" name="password">
+      </div>
+    
+      <button type="submit" class="btn btn-default">Submit</button>
+</form></div>
+</div></div>
+<div class="col-md-2"></div>
+    
+    <div class="col-md-4" >
+      
+                <div class="content" style="padding:20px" >
+        
+<form action="{% url 'attendance'  %}" method="GET">
+    <div class="form-group">
+        <label for="ID">Enter the Student ID</label>
+        <input type="number" class="form-control border-input" id="ID" name="id">
+        
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+    
+      
+</form></div>
+</div>
+</div>
+
+{% endblock %}
