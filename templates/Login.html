@@ -1,45 +1,155 @@
-{% extends 'base.html' %}
+{% load staticfiles %}
 {% block content %}
 
+<html lang="en" class="gr__pixinvent_com">
+    <head>
+        <title>Attendance System</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src=" {% static "js/bootstrap.min.js" %} "></script>
+        <link rel="stylesheet" href="{% static "Style.css" %}" >
+        <script>
+              function startTime() {
+                var today = new Date();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                m = checkTime(m);
+                s = checkTime(s);
+                document.getElementById('txt').innerHTML =
+                h + ":" + m + ":" + s;
+                var t = setTimeout(startTime, 500);
+              }
+              function checkTime(i) {
+                if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+                return i;
+              }
+              </script>
+      </head>
+
+<body class="              pace-done" data-gr-c-s-loaded="true">
+  <div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99"
+      style="transform: translate3d(100%, 0px, 0px);">
+      <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+  </div>
+  <app-root ng-version="7.2.9">
+    <router-outlet></router-outlet>
+    <app-content-layout _nghost-c9="" class="ng-star-inserted">
+      <router-outlet _ngcontent-c9=""></router-outlet>
+      <app-login-page _nghost-c10="" class="ng-star-inserted">
+        <section _ngcontent-c10="" id="login">
+          <div _ngcontent-c10="" class="container-fluid">
+            <div _ngcontent-c10="" class="row full-height-vh m-0">
+              <div _ngcontent-c10="" class="col-12 d-flex align-items-center justify-content-center">
+                <div _ngcontent-c10="" class="card">
+                  <div _ngcontent-c10="" class="card-content">
+                    <div _ngcontent-c10="" class="card-body login-img">
+                        <div><center><h4 _ngcontent-c10="" class="card-title mb-2">Sri Krishna Institute of Technology - Attendance System</h4></center></div>
+                      <hr>
+                      <div _ngcontent-c10="" class="row m-0">
+                        <div _ngcontent-c10="" class="col-lg-6 d-lg-block d-none py-2 px-3 text-center align-middle">
+                          <img _ngcontent-c10="" alt="" class="img-fluid mt-5" height="230"
+                            src="static/login.jpg" width="400"></div>
+                        <div _ngcontent-c10="" class="col-lg-6 col-md-12 bg-white px-4 pt-3">
+                          <h4 _ngcontent-c10="" class="card-title mb-2">Admin Login</h4>
+                          <p _ngcontent-c10="" class="card-text mb-3"> Welcome back, please login to your account.
+                             </p>      <p _ngcontent-c10="" class="card-text mb-3">  {{message}}
+                              </p>   <form action="{% url 'Login'  %}" method="POST">            {% csrf_token %}
+                          <input _ngcontent-c10="" class="form-control mb-3" placeholder="Username" type="text" name="name"><input
+                            _ngcontent-c10="" class="form-control mb-3" placeholder="Password" type="password" name="password">
+                          <div _ngcontent-c10="" class="d-flex justify-content-between mt-2">
+                            <div _ngcontent-c10="" class="remember-me">
+                              <div _ngcontent-c10="" class="custom-control custom-checkbox custom-control-inline mb-3">
+                                <input _ngcontent-c10="" class="custom-control-input" id="customCheckboxInline1"
+                                  name="customCheckboxInline1" type="checkbox"><label _ngcontent-c10=""
+                                  class="custom-control-label" for="customCheckboxInline1"> Remember Me </label></div>
+                            </div> 
+                            <!-- <div _ngcontent-c10="" class="forgot-password-option"><a _ngcontent-c10=""
+                                class="text-decoration-none text-primary"
+                                href="#">Forgot
+                                Password ?</a></div> -->
+                          </div>
+                          <div _ngcontent-c10="" class="fg-actions d-flex justify-content-between">
+                          
+                            <div _ngcontent-c10="" class="recover-pass"><button _ngcontent-c10=""
+                                class="btn btn-outline-primary" type="submit" style="font-style: normal;color:rgb(180, 18, 18)80, 18, 18)">Login</button>
+                            </div> </form>
+                          </div>
+                          <hr _ngcontent-c10="" class="m-0">
+                          <div _ngcontent-c10="" class="d-flex justify-content-between mt-3">
+                            <div _ngcontent-c10="" class="option-login">
+                              <h6 _ngcontent-c10="" class="text-decoration-none text-primary"> Or Student Click here </h6>
+                            </div>
+                            <div _ngcontent-c10="" class="login-btn"><button _ngcontent-c10="" class="btn btn-outline-primary" onclick="location.href='/view_att'" style="font-style: normal;color:rgb(180, 18, 18)80, 18, 18)">View Attendance</button></button>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </app-login-page>
+    </app-content-layout>
+  </app-root>
+  
+
+</body>
+
+</html>
+
+
+<!-- 
 <div class="row">
-    <div class="col-md-1"></div>
-    
-    <div class="w-col col-md-4" >
-        <div class="card">
-                <div class="content" style="padding:20px" >
-        {{message}} 
-<form action="{% url 'Login'  %}" method="POST">
-    <div class="form-group">
-            {% csrf_token %} 
-        <label for="name">Username</label>
-        <input type="text" class="form-control border-input" id="name" name="name">
+  <div class="col-md-1"></div>
+
+  <div class="w-col col-md-4">
+    <div class="card">
+      <div class="content" style="padding:20px">
+        {{message}}
+        <form action="{% url 'Login'  %}" method="POST">
+          <div class="form-group">
+ 
+            <label for="name">Username</label>
+            <input type="text" class="form-control border-input" id="name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control border-input" id="pwd" name="password">
+          </div>
+
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control border-input" id="pwd" name="password">
-      </div>
-    
-      <button type="submit" class="btn btn-default">Submit</button>
-</form></div>
-</div></div>
-<div class="col-md-2"></div>
-    
-    <div class="col-md-4" >
-      
-                <div class="content" style="padding:20px" >
-        
-<form action="{% url 'attendance'  %}" method="GET">
-    <div class="form-group">
-        <label for="ID">Enter the Student ID</label>
-        <input type="number" class="form-control border-input" id="ID" name="id">
-        
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-      </div>
-    
-      
-</form></div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+
+  <div class="col-md-4">
+
+    <div class="content" style="padding:20px">
+
+      <form action="{% url 'attendance'  %}" method="GET">
+        <div class="form-group">
+          <label for="ID">Enter the Student ID</label>
+          <input type="number" class="form-control border-input" id="ID" name="id">
+
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+
+
+    </form>
+  </div>
 </div>
-</div>
+</div> -->
 
 {% endblock %}

@@ -33,10 +33,14 @@ urlpatterns = [
     url(r'^search/$',Sample.views.search,name='search'),
     url(r'logout/$',Sample.views.logout,name='logout'),
     url(r'attendance/$',Sample.views.attendance,name="attendance"),
-    url(r'home/',Sample.views.home,name="home"),
+    url(r'view_att/',Sample.views.home,name="view_att"),
        path(r'takenatt/',Sample.views.takenatt,name="takenatt"),
        path(r'add_course/',Sample.views.add_course,name="add_course"),
-    path(r'S/',Sample.views.back,name="back")
+       path(r'Lec_cap',Sample.views.Lec_capture,name="Lec_cap"),
+    path(r'S/',Sample.views.back,name="back"),
+    path(r'Lec/',Sample.views.training_lec,name="training_lec"),
+     path(r'traineigen/',Sample.views.trainingeigen,name='trainingeigen'),
+    path(r'receigen/',Sample.views.recgeigen,name='recgeigen')
 
 
 ]

@@ -20,14 +20,14 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Subject Code</label>
-                                <input type="text" class="form-control border-input" name="Subjectcode" placeholder="Subject Code" value="" required="required">
+                                <label>Lecture College ID</label>
+                                <input type="text" class="form-control border-input" name="lecturecode" placeholder="Enter the Lecture ID" value="" required="required">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control border-input" placeholder="Email" name="email" required="required">
+                                <input type="email" class="form-control border-input" placeholder="Enter the email" name="email" required="required">
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Faculty Name</label>
-                                <input type="text" class="form-control border-input" placeholder="FacName" value="" name="FacName" required="required">
+                                <input type="text" class="form-control border-input" placeholder="Enter the Faculty Name" value="" name="FacName" required="required">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -46,20 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Subject Name</label>
-                                    <input type="text" class="form-control border-input" placeholder="SubjectName" value="" name="SubName" required="required">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Upload Image</label>
-                                    <input type="file" class="form-control border-input" placeholder="" name="files" required="required">
-                                </div>
-                            </div>
-                        </div>
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -85,41 +72,40 @@
                                 <label>Semester/year</label>
                                 <select type="text" class="form-control border-input" name="Sem" required="required">
                                         <option value="">Select Semester</option>
-                                        <option value="1">1</option>
+                                        <option value="1">1</option> 
+                                         <option value="2">2</option>
+                                        <option value="4">4</option>
+                                        
                                                    <option value="3">3</option>
                                                    <option value="5">5</option>
                                                    <option value="7">7</option> 
+                                                   <option value="8">8</option>
                                                    </select>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Section</label>
-                                <select type="text" class="form-control border-input" name="Sec" required="required">
-                                        <option value="">Select Section</option>
-                                        <option value="Sec A">Sec A</option>
-                                        <option value="Sec B">Sec B</option>
-                                    
-                                        <option value="SEC C">Sec C</option>
-                                        <option value="SEC F">Sec F</option>
-                                        <option value="SEC G">Sec G</option>
-                                        <option value="SEC H">Sec H</option> 
-                                    </select>
-                            </div>
+                            <button type="submit" style="margin-bottom: 5px" class="btn btn-info btn-fill btn-wd">Submit</button>
                         </div>
 
-                    <div class="row">
-                       
-                    </div>
-                    <div class="text-center">
-                        
-                        <button type="submit" style="margin-bottom: 5px" class="btn btn-info btn-fill btn-wd">Submit</button>
-                    </div>
                     <div class="clearfix"></div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+</div><div class="col-sm">
+        <form action="{% url 'capture' %}" method="POST">
+                {% csrf_token  %}
+                <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Enter the ID sent to Mail</label>
+                            
+                            <input type="number" class="form-control border-input" name="IDs" placeholder="Enter the Lecture ID" value="" required="required">
+                        </div>
+                        <button type="submit" value="Capture"  class="btn btn-info btn-fill btn-wd" >Capture</button>
+                    </div>
+                
+                
+                </form>
+                
+            </div>
+        </br>
 
 {% endblock%}

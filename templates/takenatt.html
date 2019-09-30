@@ -2,7 +2,12 @@
 {% load staticfiles %}
 {% block content %}
 <div class="container">
+        <center><div _ngcontent-c10="" class="login-btn"><button _ngcontent-c10="" class="btn btn-outline-primary"
+            onclick="location.href='/asd/'"
+            style="font-style: normal;color:rgb(180, 18, 18)80, 18, 18)">Back</button>
 
+        <!--Here you can write extra buttons/actions for the toolbar-->
+    </div></center> 
     <div class="card">
         <form action="/takenatt/" method="method">
 
@@ -35,23 +40,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label>Section</label>
-                            <select type="text" class="form-control border-input" name="Sec" required="required">
-                                <option value="">Select Section</option>
-                                <option value="Sec A">Sec A</option>
-                                <option value="Sec B">Sec B</option>
-
-                                <option value="SEC C">Sec C</option>
-                                <option value="SEC F">Sec F</option>
-                                <option value="SEC G">Sec G</option>
-                                <option value="SEC H">Sec H</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="row">
                     <div class="col-md-2">
                         <div class="text-center">
@@ -92,20 +81,17 @@
                                             style="width: 30px;" aria-label="Name: activate to sort column ascending">ID</th>
                                         <th class="sorting_desc" tabindex="0" aria-controls="datatables" rowspan="1"
                                             colspan="1" style="width: 93px;" aria-label="Position: activate to sort column ascending"
-                                            aria-sort="descending">USN</th>
+                                            aria-sort="descending">Faculty Code</th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatables" rowspan="1"
                                             colspan="1" style="width: 93px;" aria-label="Position: activate to sort column ascending"
-                                            aria-sort="descending">Subject Name</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
-                                            style="width: 135px;" aria-label="Office: activate to sort column ascending">Name</th>
+                                            aria-sort="descending">Faculty Name</th>
+                                   
                                         <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
                                             style="width: 135px;" aria-label="Age: activate to sort column ascending">Branch/Stream</th>
                                         <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
                                             style="width: 120px;" aria-label="Start date: activate to sort column ascending">Semester
                                             </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatables" rowspan="1" colspan="1"
-                                            style="width: 120px;" aria-label="Start date: activate to sort column ascending">Section
-                                            </th>
+                                            
                                         <th class="disabled-sorting sorting" tabindex="0" aria-controls="datatables"
                                             rowspan="1" colspan="1" style="width: 156px;" aria-label="Actions: activate to sort column ascending">Actions</th>
                                     </tr>
@@ -113,13 +99,13 @@
                                 <tfoot>
                                     <tr>
                                         <th rowspan="1" colspan="1">ID</th>
-                                        <th rowspan="1" colspan="1">USN</th>
-                                        <th rowspan="1" colspan="1">Subject \n Name</th>
-                                        <th rowspan="1" colspan="1">Name</th>
+                                        <th rowspan="1" colspan="1">Faculty Code</th>
+                                        <th rowspan="1" colspan="1">Faculty Name</th>
+                                 
                                         
                                         <th rowspan="1" colspan="1">Branch</th>
                                         <th rowspan="1" colspan="1">Semester/Year</th>
-                                        <th rowspan="1" colspan="1">Section</th>
+                                        
                                         <th rowspan="1" colspan="1">Actions</th>
                                     </tr>
                                 </tfoot>
@@ -127,15 +113,19 @@
                                     {% for stuobjs in stuobj.all %}
                                     <tr role="row" class="odd">
                                         <td class="" tabindex="0">{{ stuobjs.id }}</td>
-                                        <td class="sorting_1">{{ stuobjs.cId }}</td>
-                                        <td class="sorting_1">{{ stuobjs.cname }}</td>
-                                        <td>{{ stuobjs.cfac }}</td>
+                                        <td class="sorting_1">{{ stuobjs.LecID }}</td>
+                                        <td class="sorting_1">{{ stuobjs.Lec_name }}</td>
+                                       
                                         <td>{{ stuobjs.branch }}</td>
                                         <td>{{ stuobjs.sem }}</td>
-                                        <td>{{ stuobjs.sec }}</td>
+                                  
                                         <td>
                                             <a href="/rec/?id={{ stuobjs.id }}" class="btn btn-simple btn-warning btn-icon edit"><i class="ti-pencil-alt">Take Attendance</i></a>
-                                            <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="ti-close"></i></a>
+                                            <!-- <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="ti-close"></i></a> -->
+                                        </td>
+                                        <td>
+                                            <a href="/receigen/?id={{ stuobjs.id }}" class="btn btn-simple btn-warning btn-icon edit"><i class="ti-pencil-alt">Take Attendance using eigen</i></a>
+                                            <!-- <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="ti-close"></i></a> -->
                                         </td>
                                     </tr>
                                     {% endfor %}

@@ -28,56 +28,56 @@
         }
         </script>
 </head>
-
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="">Attendance System SKIT</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-                <li id="Dashboard"><a href="/main"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                <li id="Dashboard"><a href="/asd"><i class="fa fa-users"></i> View Details</a></li>
-                <li id="Attendance"><a href="/attendance"><i class="fa fa-users"></i> Attendance</a></li>
-               
-                <li id="About   "><a href="/about"><i class="fa fa-info"></i> About</a></li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right navbar-user">
-                <li class="dropdown messages-dropdown">
-                   
-                        
+    <nav class="navbar navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"  data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 
-                <li class="dropdown user-dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ user }}<b
-                            class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
-                        <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/logout/"><i class="fa fa-power-off"></i> Log Out</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </nav>
+            </div>
+         
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse"> <center><h4><b>Sri Krishna Institute of Technology - Attendance System</b></h4></center>
+
+
+                <ul class="nav navbar-nav side-nav"  style="color:white" >
+                    <li id="Dashboard" ><a href="/main"><i class="fa fa-dashboard" ></i> Dashboard</a></li>
+                    <li id="Dashboard"><a href="/asd"><i class="fa fa-users"></i> View Details</a></li>
+                    <li id="Attendance"><a href="/view_att"><i class="fa fa-users"></i> Attendance</a></li>
+                   
+                    <!-- <li id="About   "><a href="/about"><i class="fa fa-info"></i> About</a></li> -->
+                </ul>
+  
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                    <li class="dropdown">
+                       
+                            
+                    
+                    </li><li>
+                        <a href="#" class="dropdown" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-user"></i> rajgopalms<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <!-- <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
+                            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+                            <li class="divider"></li> -->
+                            <li><a href="/logout/"><i class="fa fa-power-off"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
     
-<div class="container-fluid" style="margin-top: 80px">    
+<div class="container-fluid" >    
         <body onload="startTime()">
 
-               <center> <div class="btn btn-danger" style="margin-bottom: 5px" id="txt"></div></center>
+               <!-- <center> <div class="btn" style="margin-bottom: 5px" id="txt"></div></center> -->
 {% block content %}
 
 

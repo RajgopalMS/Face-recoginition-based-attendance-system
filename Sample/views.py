@@ -35,13 +35,14 @@ def  about(request):
     return render(request,'about.html')
 
 def  home(request):
-    return render(request,'home.html')
+    return render(request,'view_attendance.html')
 
 
 def main(request):
     if not request.user.is_authenticated:
         return render(request, 'Login.html')
     else:
+        
         date =datetime.datetime.now()
         print((date.isoweekday() % 7))
         return render(request,'main.html')
@@ -96,10 +97,49 @@ def capture(request):
         cam = cv2.VideoCapture(0)
         cv2.namedWindow("Capture the Faces")
         img_counter = 1
+        mins=0
+        while mins!=100:
+            ret, frame = cam.read()
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray,scaleFactor=1.2, minNeighbors=5)
+            cv2.imshow("Capture the Faces Space to take a photo and esc to exit", frame)
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+                sub_face = frame[y:y+h, x:x+w]
+                img_name = "./"+_path+"/"+"{}.png".format(img_counter)
+                cv2.imwrite(img_name, sub_face)
+                print("{} written!".format(img_name))
+                img_counter += 1
+            mins+=1
+        cam.release()
+        cv2.destroyAllWindows()   
+    return render(request,'capture.html',{'successmsg':'success'})
+
+#euledian
+
+#lecture Capturing
+
+def Lec_capture(request):
+    _ids = request.POST['IDs']
+    _path='./traininglec/Lecture'+_ids
+    face_cascade = cv2.CascadeClassifier('./static/haarcascade_frontalface_default.xml')
+    if not request.user.is_authenticated:
+        return render(request,'Login.html')
+    print(_ids)
+    if request.method=="POST":
+        try:
+            os.mkdir(_path)
+            print("Directory " , _path ,  " Created ") 
+        except FileExistsError:
+            print("Directory " , _path ,  " already exists")
+            #changes need to be done here
+        cam = cv2.VideoCapture(0)
+        cv2.namedWindow("Capture the Faces")
+        img_counter = 1
         while True:
             ret, frame = cam.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            faces = face_cascade.detectMultiScale(gray,scaleFactor=1.1, minNeighbors=10)
+            faces = face_cascade.detectMultiScale(gray,scaleFactor=1.2, minNeighbors=5)
             cv2.imshow("Capture the Faces Space to take a photo and esc to exit", frame)
             if not ret:
                 break
@@ -116,14 +156,13 @@ def capture(request):
         cv2.destroyAllWindows()   
     return render(request,'capture.html',{'successmsg':'success'})
 
-#euledian
 
 
 def detect_face(image):
     
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     face_cascade = cv2.CascadeClassifier('./static/haarcascade_frontalface_default.xml')
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=10);
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5);
     if (len(faces) == 0):
         return None, None
     (x, y, w, h) = faces[0]
@@ -156,6 +195,42 @@ def training(request):
                 labels.append(label)
             
     recognizer.train(faces,np.array(labels))
+    recognizer.save("./trainingdata.yml")
+    cv2.destroyAllWindows()
+    cv2.waitKey(1)
+    cv2.destroyAllWindows()
+    
+    context = {'faces':'Successfully','label':'Trained'}
+    return render(request,'main.html',context)
+
+#Training Lecture data
+def training_lec(request):
+    if not request.user.is_authenticated:
+        return render(request,'Login.html')
+    faceinstance =[]
+    dirs = os.listdir('./trainingLec/')
+    faces = []
+    labels = []
+    for dir_name in dirs:
+        if not dir_name.startswith("Lecture"):
+            continue;
+        label = int(dir_name.replace("Lecture", ""))
+        subject_dir_path ='traininglec' + "/" + dir_name        
+        subject_images_names = os.listdir(subject_dir_path)
+        recognizer = cv2.face.LBPHFaceRecognizer_create()
+        for image_name in subject_images_names:
+            if image_name.startswith("."):
+                continue;
+            image_path = subject_dir_path + "/" + image_name
+            image = cv2.imread(image_path)
+            cv2.imshow("Training on image...", cv2.resize(image, (400, 500)))
+            cv2.waitKey(100)
+            face, rect = detect_face(image) 
+            if face is not None:
+                faces.append(face)
+                labels.append(label)
+            
+    recognizer.train(faces,np.array(labels))
     recognizer.save("./traininglec.yml")
     cv2.destroyAllWindows()
     cv2.waitKey(1)
@@ -163,6 +238,8 @@ def training(request):
     
     context = {'faces':'Successfully','label':'Trained'}
     return render(request,'main.html',context)
+
+
 
 def saves(i,take,now,time,courceid): 
     takeatt = attend()
@@ -197,23 +274,28 @@ def recg(request):
         date =now.strftime("%Y-%m-%d")
         
         att = []
+        confidence=[]
+        ides=[]
         print(now)
         while 1:
             ret, img = cam.read()
+            print(ret)
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2,
-                        minNeighbors=10,
+                        minNeighbors=5,
                         minSize=(25, 25))
             now = datetime.datetime.now()
             for (x,y,w,h) in faces:
                 cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-                ids,conf=rec.predict(gray[y:y+h,x:x+w])
+                subface=cv2.resize(gray[y:y+h, x:x+w],(280,280))
+                ids,conf=rec.predict(subface)
                 stname = studentform.objects.get(id=ids)
                 print(conf)
+                
                 if conf>75:
                     print(stname.id,now.strftime("%Y-%m-%d %H:%M"))
                     cv2.putText(img,str(stname.usn),(x,y+h), font, 2,20,2)
-                   
+                    confidence.append(conf)
                     att.append(stname.id)
             cv2.imshow('img',img)
             k = cv2.waitKey(1)
@@ -221,32 +303,27 @@ def recg(request):
                 print("Escape hit, closing...")
                 break;
         att=set(att)
-        for i in att:
-            saves(i,True,now,now.strftime("%H:%M"),courceid)
-            #excelsave(i,True,now,now.strftime("%H:%M"),courceid)    
+        Confidence ="Confidence"
+        ids="Ids recoginiczed"
+        print(Confidence+": "+confidence)
+        print(att)    
         cv2.destroyAllWindows()
         cv2.waitKey(1)
         cv2.destroyAllWindows()
-        context = {'faces': 'success'}
-        return render(request,'main.html',context)
+        context = {'faces': 'success','conf':confidence,'idss':att}   
+        return render(request,'capture.html',context)
     else:
         return render(request,'main.html',{'faces':'Please enter the Number'})
 
 def search(request):
     if not request.user.is_authenticated:
         return render(request,'Login.html')
-    details= studentform.objects    
-    dirs = os.listdir('./training-data/')
     if 'q' in request.GET and request.GET['q']:
         q = request.GET['q']
-        #print(q)
+        print(q)
         books = studentform.objects.filter(usn=q)
-        details= studentform.objects.get(usn=q)
-        if books=="Null"and details=="Null":
-            context = {'books': books, 'query': q,}
-            return render(request, 'addstudent.html',context)
-        else:
-            context ={'books':'0','query':q}
+        context = {'books': books, 'query': q,}
+        return render(request, 'addstudent.html',context)
     else:
         return HttpResponse('Enter the Correct USN.')
 
@@ -274,14 +351,16 @@ def attendance(request):
     details=studentform.objects
     if 'id' in request.GET and request.GET['id']:
         id = request.GET['id']
-        studetail = attend.objects.filter(studentform_id=id)
         
-        context = {'stuobj':studetail}
+        studetail = attend.objects.filter(studentform_id=id)
+        stuclass = studentform.objects.filter(id=id)
+        print(stuclass)
+        context = {'stuobj':studetail,'stuclassobj':stuclass}
         return render(request,'attendance.html',context)
     else:
         stuobj = 'No Data \n Please Select the Branch,Section and Semester'
         context = {'error':stuobj}
-        return render(request,'Login.html',context)
+        return render(request,'attendance.html',context)
 
 def takenatt(request):
     if not request.user.is_authenticated:
@@ -290,8 +369,8 @@ def takenatt(request):
     if 'branch' in request.GET and request.GET['branch']:
         branch = request.GET['branch']
         sem =  request.GET['Sem']
-        sec = request.GET['Sec']
-        studetail = cources.objects.filter(branch=branch,sem=sem,sec=sec)
+        
+        studetail = cources.objects.filter(branch=branch,sem=sem)
         context = {'stuobj':studetail}
         return render(request,'takenatt.html',context)
     else:
@@ -307,24 +386,21 @@ def add_course(request):
         if request.method =='POST':
             try:
                 cources1 = cources()
-                cources1.cId = request.POST['Subjectcode']
-                cources1.cname = request.POST['SubName']
-                cources1.cfac = request.POST['FacName']
+                cources1.LecID = request.POST['lecturecode']
+                cources1.fmail = request.POST['email']
+                cources1.phno = request.POST['Phno']
                 cources1.branch = request.POST['branch']
                 cources1.sem = request.POST['Sem']
-                cources1.sec = request.POST['Sec']
-                cources1.faceimage = request.POST['files']
-                cources1.fmail = request.POST['email']
-                cources1.phno = request.POST['Phno']                
+                cources1.Lec_name = request.POST['FacName']
                 cources1.save()
                 obj1 = cources.objects.latest('id') 
                 print(obj1.id)
-                subject ='Student Details Successfully added'
-                message='Welcome '+ obj1.cfac +' Your ID is : '+ str(obj1.id) +''
+                subject ='Faculty Details Successfully added'
+                message='Welcome '+ obj1.Lec_name +' Your ID is : '+ str(obj1.id) +''
                 from_email=settings.EMAIL_HOST_USER
                 to_list=[cources1.fmail]
                 send_mail(subject,message,from_email,to_list,fail_silently=False)
-                _mssg='Successfully Added the Student details'
+                _mssg='Faculty details'
             except IntegrityError:
                 _mssg='USN had already added'
         else:
@@ -450,7 +526,7 @@ def hello():
     
     print(now)
     if present_day>=0:
-        present_day_time = '9:00'     # (now.strftime("%H:%M"))
+        present_day_time =   '9:00'   # (now.strftime("%H:%M")) 
         time_list=['9:00','10:00']
         for x in time_list:
             if present_day_time==x:
@@ -468,7 +544,7 @@ def hello():
             font=cv2.FONT_HERSHEY_SIMPLEX
             att_lec = []
             mins=0
-            while mins!=120:
+            while mins!=300:
                 ret, img = cam.read()
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2,
@@ -494,7 +570,7 @@ def hello():
                 font=cv2.FONT_HERSHEY_SIMPLEX
                 att = []
                 mins=0
-                while mins!=120:
+                while mins!=300:
                     ret, img = cam.read()
                     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2,
@@ -506,7 +582,7 @@ def hello():
                         ids,conf=rec.predict(gray[y:y+h,x:x+w])
                         stname = studentform.objects.get(id=ids)
                         print(conf)
-                        if conf>75:
+                        if conf>70:
                             print(stname.id,now.strftime("%Y-%m-%d %H:%M"))
                             cv2.putText(img,str(stname.usn),(x,y+h), font, 2,20,2)
                             att.append(stname.id)
@@ -519,12 +595,20 @@ def hello():
                 att=set(att)
                 for i in att:
                     saves(i,True,now,now.strftime("%H:%M"),lec_id[0])
+                lecid_obj=cources.objects.filter(id=lec_id[0])
+                lecid_obj=cources.objects.get(id=1)
+                subject ='Class'
+                message='Class are taken by '+ str(lec_id[0]) +' at '+ str(now) +' for '+ str(len(att)) +' students.'
+                from_email=settings.EMAIL_HOST_USER
+                to_list=[lecid_obj.fmail,settings.EMAIL_HOST_USER]
+                send_mail(subject,message,from_email,to_list,fail_silently=False)
+                _mssg='Class taken'
             else:
                 No_lec="Lecture Not Found"
                 print(No_lec)    
                 
     else:
-        No_lec="Lecture Not Found2323232323"
+        No_lec="Sunday"
         print(No_lec)
     
 
@@ -598,3 +682,101 @@ def hello():
 def back(request):
     hello(schedule=90)
     return render(request,"main.html")
+
+
+
+
+
+def trainingeigen(request):
+    if not request.user.is_authenticated:
+        return render(request,'Login.html')
+    faceinstance =[]
+    dirs = os.listdir('./training-data/')
+    faces = []
+    labels = []
+    for dir_name in dirs:
+        if not dir_name.startswith("s"):
+            continue;
+        label = int(dir_name.replace("s", ""))
+        subject_dir_path ='training-data' + "/" + dir_name        
+        subject_images_names = os.listdir(subject_dir_path)
+        recognizer = cv2.face.EigenFaceRecognizer_create()
+        for image_name in subject_images_names:
+            if image_name.startswith("."):
+                continue;
+            image_path = subject_dir_path + "/" + image_name
+            image = cv2.imread(image_path)
+            cv2.imshow("Training on image...", cv2.resize(image, (100, 100)))
+            cv2.waitKey(100)
+            face, rect = detect_face(image) 
+            
+            if face is not None:
+                faces.append(cv2.resize(face,(280,280)))
+                labels.append(label)
+            
+    recognizer.train(faces,np.array(labels))
+    recognizer.save("./trainingdataeigen.yml")
+    cv2.destroyAllWindows()
+    cv2.waitKey(1)
+    cv2.destroyAllWindows()
+    
+    context = {'faces':'Successfully','label':'Trained'}
+    return render(request,'main.html',context)
+
+
+
+
+
+    
+def recgeigen(request):
+    if not request.user.is_authenticated:
+        return render(request,'Login.html')
+    if 'id' in request.GET and request.GET['id']:
+        courceid= int(request.GET['id'])
+        face_cascade = cv2.CascadeClassifier('./static/haarcascade_frontalface_default.xml')
+        takeatt = attend()
+        rec = cv2.face.EigenFaceRecognizer_create()
+        rec.read("trainingdataeigen.yml")
+        id=0
+        cam = cv2.VideoCapture(0)
+        font=cv2.FONT_HERSHEY_SIMPLEX
+        now = datetime.datetime.now()
+        time =now.strftime("%H:%M")
+        date =now.strftime("%Y-%m-%d")
+        
+        att = []
+        confidence=[]
+        ides=[]
+        print(now)
+        while 1:
+            ret, img = cam.read()
+    
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray,scaleFactor=1.2, minNeighbors=5)
+            now = datetime.datetime.now()
+            for (x,y,w,h) in faces:
+                cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+                subface=cv2.resize(gray[y:y+h, x:x+w],(280,280))
+                ids,conf=rec.predict(subface)
+                stname = studentform.objects.get(id=ids)
+                print(conf)
+                
+                print(stname.id,now.strftime("%Y-%m-%d %H:%M"))
+                cv2.putText(img,str(stname.usn),(x,y+h), font, 2,20,2)
+                confidence.append(conf)
+                att.append(stname.id)
+            cv2.imshow('img',img)
+            k = cv2.waitKey(1)
+            if k%256 == 27:
+                print("Escape hit, closing...")
+                break;
+        att=set(att)
+        print(confidence)
+        print(att)  
+        cv2.destroyAllWindows()
+        cv2.waitKey(1)
+        cv2.destroyAllWindows()
+        context = {'faces': 'success','conf':confidence,'idss':att}
+        return render(request,'capture.html',context)
+    else:
+        return render(request,'main.html',{'faces':'Please enter the Number'})

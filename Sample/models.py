@@ -13,15 +13,12 @@ class studentform(models.Model):
 
 class cources(models.Model):
     id = models.AutoField(name='id',primary_key=True)
-    cId=models.CharField(max_length=100)
+    LecID=models.CharField(max_length=100)
     fmail=models.CharField(max_length=50)
     phno=models.CharField(max_length=50)
-    cname=models.CharField(max_length=100)
-    cfac=models.CharField(max_length=100)
-    faceimage=models.ImageField(upload_to='upload/')
+    Lec_name=models.CharField(max_length=100)
     branch=models.CharField(max_length=2)
     sem=models.IntegerField()
-    sec=models.CharField(max_length=100)
 
 
 class attend(models.Model):
@@ -34,6 +31,7 @@ class attend(models.Model):
 
 class time_table(models.Model):
     id=models.AutoField(name='id',primary_key=True)
-    subject_id=models.ForeignKey('cources',on_delete=models.CASCADE,)
-    weekday=models.CharField(max_length=100)
-    timings=models.CharField(max_length=100)
+    subject_name=models.CharField(max_length=100)
+    lec_id=models.ForeignKey('cources',on_delete=models.CASCADE,)
+    subject_code=models.CharField(max_length=10)
+    
