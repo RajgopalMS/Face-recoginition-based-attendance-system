@@ -10,3 +10,4 @@
 # AutomaticAttendance
 Automatic Attendance System using Face Recognition using Django Framework. 
 
+<img src="https://github.com/RajgopalMS/Face-recoginition-based-attendance-system/blob/master/static/Screenshot%20(88).png"/>
